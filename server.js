@@ -10,7 +10,7 @@ var io = socketIO(server);
 var lastUpdateTime = (new Date()).getTime();
 var currentTime = (new Date()).getTime();
 var timeDifference = currentTime - lastUpdateTime;
-app.set('port', 5000);
+app.set('port', 80);
 app.use('/static', express.static(__dirname + '/static'));
 // Routing
 app.get('/', function(request, response) {
