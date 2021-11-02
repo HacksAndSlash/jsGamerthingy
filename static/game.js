@@ -1,4 +1,4 @@
-var socket = io();
+var socket = io({transports: ['websocket'], upgrade: false});
 var selectedSubMenu = 0;
 socket.on('message', function(data) {
   console.log(data);
@@ -36,13 +36,20 @@ document.addEventListener('keydown', function(event) {
 	  paused = !paused;
 	  break;
 	case 13:
-	  paused = false;
 	  if(selectedSubMenu == 1)
-	  socket.emit("nameChange", name);
-	  if(selectedSubMenu == 2 && name.length < 7)
-	  socket.emit("colorChange", name);
-	  name = "";
-	  selectedSubMenu = 0;
+	  {
+		socket.emit("nameChange", name);
+		name = "";
+		selectedSubMenu = 0;
+		paused = false;
+	  }
+	  if(selectedSubMenu == 2 && name.length == 6)
+	  {
+		socket.emit("colorChange", name);
+		name = "";
+		selectedSubMenu = 0;
+		paused = false;
+	  }
 	  break;
 	
   }
@@ -110,7 +117,6 @@ socket.on('state', function(players) {
   }
   if(paused)
   {
-	context.font = '50px serif';
 	context.globalAlpha = 0.4;
 	context.fillStyle = "black";
 	context.fillRect(100, 100, 600, 400);
@@ -119,19 +125,27 @@ socket.on('state', function(players) {
 		context.fillRect(110, 125, 580, 170);
 		context.fillRect(110, 300, 580, 170);
 	}
-	if(selectedSubMenu == 2 && name.length == 6)
-		context.fillStyle = "#" + name;
-	else if(selectedSubMenu != 0)
+	else (selectedSubMenu != 0)
 		context.fillStyle = "#FFFFFF";
 	context.globalAlpha = 0.8;
+	context.font = '14px serif';
+	context.fillStyle = "#FFFFFF";
+	switch(selectedSubMenu)
+	{
+		case 1: context.fillText("Type Name", 400 - (getTextWidth("Type Name",14) / 2 ), 155); break;
+		case 2: context.fillText("Enter Hex Values for new Color", 400 - (getTextWidth("Enter Hex Values for new Color",14) / 2 ), 155); break;
+	}
+	context.font = '50px serif';
+		if(selectedSubMenu == 2 && name.length == 6)
+		context.fillStyle = "#" + name;
 	if(selectedSubMenu != 0)
 		context.fillText(name, 400 - (getTextWidth(name,50) / 2 ), 300);
 	else
 	{
 		context.font = '14px serif';
 		context.fillStyle = "#FFFFFF";
-		context.fillText("Change Name", 400 - (getTextWidth("Change Name",50) / 2 ), 155);
-		context.fillText("Change Color", 400 - (getTextWidth("Change Color",50) / 2 ), 455);
+		context.fillText("Change Name", 400 - (getTextWidth("Change Name",14) / 2 ), 155);
+		context.fillText("Change Color", 400 - (getTextWidth("Change Color",14) / 2 ), 455);
 	}
 	context.globalAlpha = 1;
 	context.font = '14px serif';
