@@ -11,10 +11,10 @@ var lastUpdateTime = (new Date()).getTime();
 var currentTime = (new Date()).getTime();
 var timeDifference = currentTime - lastUpdateTime;
 app.set('port', 80);
-app.use('/static', express.static(__dirname + '/static'));
+app.use('/static', express.static(./static/ + '/static'));
 // Routing
 app.get('/', function(request, response) {
-  response.sendFile(path.join(__dirname, 'index.html'));
+  response.sendFile(path.join(./, 'index.html'));
 });
 // Starts the server.
 server.listen(5000, function() {
