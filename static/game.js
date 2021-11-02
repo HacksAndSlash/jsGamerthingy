@@ -93,18 +93,11 @@ canvas.addEventListener('click', function(event) {
 	  }
   }
 }, false);
-function getTextWidth(text, font) {
-  // re-use canvas object for better performance
-  const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
-  const context = canvas.getContext("2d");
-  context.font = font;
-  const metrics = context.measureText(text);
-  return metrics.width;
-}
 canvas.width = 800;
 canvas.height = 600;
 var context = canvas.getContext('2d');
 context.font = '14px serif';
+context.textAlign = "center";
 socket.on('state', function(players) {
   context.clearRect(0, 0, 800, 600);
   for (var id in players) {
@@ -132,20 +125,20 @@ socket.on('state', function(players) {
 	context.fillStyle = "#FFFFFF";
 	switch(selectedSubMenu)
 	{
-		case 1: context.fillText("Type Name", 400 - (getTextWidth("Type Name",14) / 2 ), 155); break;
-		case 2: context.fillText("Enter Hex Values for new Color", 400 - (getTextWidth("Enter Hex Values for new Color",14) / 2 ), 155); break;
+		case 1: context.fillText("Type Name", 400, 155); break;
+		case 2: context.fillText("Enter Hex Values for new Color", 400, 155); break;
 	}
 	context.font = '50px serif';
 		if(selectedSubMenu == 2 && name.length == 6)
 		context.fillStyle = "#" + name;
 	if(selectedSubMenu != 0)
-		context.fillText(name, 400 - (getTextWidth(name,50) / 2 ), 300);
+		context.fillText(name, 400, 300);
 	else
 	{
 		context.font = '14px serif';
 		context.fillStyle = "#FFFFFF";
-		context.fillText("Change Name", 400 - (getTextWidth("Change Name",14) / 2 ), 155);
-		context.fillText("Change Color", 400 - (getTextWidth("Change Color",14) / 2 ), 455);
+		context.fillText("Change Name", 400, 155);
+		context.fillText("Change Color", 400, 455);
 	}
 	context.globalAlpha = 1;
 	context.font = '14px serif';
