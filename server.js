@@ -11,7 +11,7 @@ var lastUpdateTime = (new Date()).getTime();
 var currentTime = (new Date()).getTime();
 var timeDifference = currentTime - lastUpdateTime;
 app.set('port', 80);
-app.use('/static', express.static(./static/ + '/static'));
+app.use('/static', express.static('./static/'));
 // Routing
 app.get('/', function(request, response) {
   response.sendFile(path.join(./, 'index.html'));
